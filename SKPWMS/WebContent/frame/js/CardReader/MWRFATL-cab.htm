@@ -1,0 +1,68 @@
+<HTML>
+<HEAD>
+<TITLE>ATL 3.0 test page for object MWReaderCtl</TITLE>
+</HEAD>
+<BODY>&nbsp;
+<OBJECT id=MWRFATL codeBase=MwRFReader.cab#version=2,0,0,1
+data=data:application/x-oleobject;base64,VPpLUhUXNkSyudxeJIvBwwADAADYEwAA2BMAAA== 
+classid=CLSID:BDE9B6B3-4C1D-4C05-8A71-3696F3BF81F5></OBJECT> 
+
+<SCRIPT LANGUAGE=javascript>
+<!--
+var aa ;
+var bb="1234567890000000000000000001111111111111111111111";
+var key="ffffffffffff";
+var data="12345678901234567890123456789012";
+var data2="ffffffffffffffffffffffffffffffff";
+var send="0084000008";
+var pass="";
+
+bb =  MWRFATL.OpenReader("");
+aa=MWRFATL.LastRet;
+alert(bb);
+alert(aa);
+
+bb =  MWRFATL.RF_Beep(60);
+aa=MWRFATL.LastRet;
+alert(bb);
+alert(aa);
+
+bb=MWRFATL.OpenCard(1);
+aa=MWRFATL.LastRet;
+alert(bb);
+alert(aa);
+
+MWRFATL.RF_LoadKey(1,4,key);
+aa=MWRFATL.LastRet;
+alert(aa);
+
+MWRFATL.RF_Authentication(1,4);
+aa=MWRFATL.LastRet;
+alert(aa);
+
+bb=MWRFATL.MF_Read(17);
+aa=MWRFATL.LastRet;
+alert(bb);
+alert(aa);
+
+MWRFATL.MF_Write(17,data);
+aa=MWRFATL.LastRet;
+alert(aa);
+
+bb=MWRFATL.MF_Read(17);
+alert(bb);
+
+MWRFATL.CloseCard();
+aa=MWRFATL.LastRet;
+alert(aa);
+
+MWRFATL.CloseReader();
+aa=MWRFATL.LastRet;
+alert(aa);
+
+
+//-->
+</SCRIPT>
+
+</BODY>
+</HTML>

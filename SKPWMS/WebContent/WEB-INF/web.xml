@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>AqmsWeb</display-name>
+  <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml,classpath:applicationContext-security.xml</param-value>
+	</context-param>
+	<!-- 自定义标签 -->	
+	<jsp-config>
+    <taglib>
+        <taglib-uri>/easyui-tags</taglib-uri>
+        <taglib-location>/WEB-INF/tld/easyui.tld</taglib-location>
+    </taglib>
+
+  </jsp-config>
+	<!-- 配置 springSecurity  start-->
+   <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	<!-- 配置 springSecurity  end-->
+   <listener>
+        <listener-class>
+			org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+    <!--  防止多人登陆 ,控制一个用户只能登录一次，不能在其他地方重新登录-->
+  	<listener>
+		<listener-class>
+			org.springframework.security.web.session.HttpSessionEventPublisher 
+		</listener-class>
+	</listener>
+	
+    <!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+    
+  <!-- Spring 刷新Introspector防止内存泄露 -->
+    <listener>
+   		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+    <filter>
+		<filter-name>openSession</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+		<init-param>
+			<param-name>singleSession</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>openSession</filter-name>
+		<url-pattern>/</url-pattern>
+	</filter-mapping>
+	
+    <filter>  
+         <filter-name>jpaFilter</filter-name>  
+         <filter-class>  
+         org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter  
+         </filter-class>  
+         <init-param>  
+           <param-name>entityManagerFactory</param-name>  
+           <param-value>entityManagerFactory</param-value>  
+         </init-param>  
+      </filter>  
+      <filter-mapping>  
+       <filter-name>jpaFilter</filter-name>  
+       <url-pattern>/</url-pattern>  
+     </filter-mapping>
+     <!-- 跨站点请求伪造过滤器-->
+	<filter>
+ 	<filter-name>actionFilter</filter-name>
+ 	<filter-class>com.skpw.filter.ActionFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	<filter-name>actionFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+    <!-- 用户登陆拦截 -->
+   <filter>
+ 	<filter-name>checkIsLogin</filter-name>
+ 	<filter-class>com.skpw.filter.LoginFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	<filter-name>checkIsLogin</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	 <!-- 编码过滤器 -->
+    <filter>
+        <filter-name>filter</filter-name>
+        <filter-class>com.skpw.filter.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- 字符统一过滤为UTF-8 -->
+	<filter>
+		<filter-name>CharacterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  <servlet>
+	<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>spring</servlet-name>
+	<url-pattern>/</url-pattern>
+	</servlet-mapping> 
+      
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+ <error-page>  
+        <error-code>404</error-code>  
+        <location>/404.jsp</location>  
+    </error-page>  
+    <error-page>  
+        <error-code>500</error-code>  
+        <location>/500.jsp</location>  
+    </error-page>
+	<!-- <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SSL</web-resource-name>
+			<url-pattern>/*</url-pattern>
+	      </web-resource-collection>
+	      
+	      <user-data-constraint>
+	          <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	      </user-data-constraint>
+	  </security-constraint> -->
+
+	
+</web-app>

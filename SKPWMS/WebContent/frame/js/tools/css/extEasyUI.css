@@ -1,0 +1,85 @@
+/* 工具栏>表单间隙 */
+/* #toolbar>form{
+	margin: 0 0 0 0;
+} */
+.swSearchForm{
+	margin: 0 0 0 0;
+}
+
+.swSearchForm input,select{
+	width: 148px;
+	height: 18px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc;
+	border-radius:3px;
+	padding: 0px;
+}
+
+/* .swSearchForm th{
+	vertical-align: bottom;
+} */
+
+.swSearchForm label{
+	font-size: 12px;
+	margin: 0 0 0 0;
+	/* width: 60px; */
+}
+
+.swSearchForm td{
+	padding-right: 20px;
+}
+
+/* 表单样式 */
+.swTable input,select{
+	width: 220px;
+}
+
+.swTable textarea{
+	width:95%;
+	height:95%;
+}
+
+.swTable input,select{
+	width: 220px;
+}
+
+.swTable th{
+	vertical-align: middle;
+}
+
+.swTableSubtitle{
+	font-size: 16px;
+	font-weight:bold;
+}
+
+.swFormButtunDiv{
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	text-align:right;
+}
+
+.combo {
+border-color: #ccc;
+border-radius:4px;
+width: 150px;
+}
+
+.table tr:first-child>th, .table tr:first-child>td {
+/* padding: 8px;
+line-height: 20px;
+text-align: left;
+vertical-align: top; */
+border-top: none;
+}
+
+/* .combo input {
+line-height: 20px;
+height: 30px;
+}
+
+.combo .combo-text {
+line-height: 20px;
+height: 30px;
+} */
